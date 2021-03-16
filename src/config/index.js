@@ -1,1 +1,3 @@
-export const BASE_URL = 'https://example-data.draftbit.com/books?_limit=10';
+export const bookUrl = (page) => {
+  return `https://example-data.draftbit.com/books?_page=${page}`;
+};

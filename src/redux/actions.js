@@ -1,17 +1,17 @@
 import axios from 'axios';
-import {BASE_URL} from '../config';
+import {bookUrl} from '../config';
 
 export const GET_BOOKS_SUCCESS = 'GET_BOOKS_SUCCESS';
 export const ADD_TO_BOOKMARK_LIST = 'ADD_TO_BOOKMARK_LIST';
 export const REMOVE_FROM_BOOKMARK_LIST = 'REMOVE_FROM_BOOKMARK_LIST';
 export const GET_BOOKS_ERROR = 'GET_BOOKS_ERROR';
+export const ADD_NOTE = 'ADD_NOTE';
 
-export const getBooks = () => {
+export const getMoreBooks = (page) => {
   return function (dispatch) {
     axios
-      .get(BASE_URL)
+      .get(bookUrl(page))
       .then((response) => {
-        //response.data
         const books = response.data;
         dispatch(getBooksSuccess(books));
       })
@@ -46,5 +46,12 @@ export const removeBookmark = (book) => (dispatch) => {
   dispatch({
     type: REMOVE_FROM_BOOKMARK_LIST,
     payload: book,
+  });
+};
+
+export const addNote = (notes) => (dispatch) => {
+  dispatch({
+    type: ADD_NOTE,
+    payload: notes,
   });
 };

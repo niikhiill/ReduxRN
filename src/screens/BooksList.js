@@ -10,24 +10,33 @@ import {
 } from 'react-native';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {getBooks, addBookmark, removeBookmark} from '../redux/actions';
+import {getMoreBooks, addBookmark, removeBookmark} from '../redux/actions';
 
 export default function BooksListApp({navigation}) {
   const {books, bookmarks, bookerror} = useSelector(
     (state) => state.booksReducer,
   );
   const dispatch = useDispatch();
-  const fetchBooks = () => dispatch(getBooks());
-  useEffect(() => {
-    fetchBooks();
-  }, []);
 
   const addToBookmarkList = (book) => dispatch(addBookmark(book));
   const removeFromBookmarkList = (book) => dispatch(removeBookmark(book));
+  const getMoreBooksList = (offset) => dispatch(getMoreBooks(offset));
 
   const handleAddBookmark = (book) => {
     addToBookmarkList(book);
   };
+
+  const getBooks = () => {
+    return function () {
+      const offset = books.length / 10;
+      getMoreBooksList(offset + 1);
+    };
+  };
+
+  const fetchBooks = () => dispatch(getBooks());
+  useEffect(() => {
+    fetchBooks();
+  }, []);
 
   const handleRemoveBookmark = (book) => {
     removeFromBookmarkList(book);
@@ -97,6 +106,8 @@ export default function BooksListApp({navigation}) {
               keyExtractor={(item) => item.id.toString()}
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}
+              onEndReached={getBooks()}
+              onEndReachedThreshold={0.1}
             />
           </View>
         </View>
