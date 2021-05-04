@@ -49,9 +49,10 @@ export const removeBookmark = (book) => (dispatch) => {
   });
 };
 
-export const addNote = (notes) => (dispatch) => {
+export const addNote = (id, notes) => (dispatch) => {
   dispatch({
     type: ADD_NOTE,
-    payload: notes,
+    id: id,
+    comments: notes,
   });
 };
