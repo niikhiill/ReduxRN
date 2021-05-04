@@ -82,6 +82,7 @@ export default function BooksListApp({navigation}) {
                 onPress={() =>
                   navigation.navigate('BookNotes', {
                     title: item.title,
+                    id: item.id,
                   })
                 }>
                 <Text style={{fontSize: 24, color: '#64676D'}}>Notes</Text>
@@ -103,7 +104,7 @@ export default function BooksListApp({navigation}) {
           <View style={{flex: 1, marginTop: 8}}>
             <FlatList
               data={books}
-              keyExtractor={(item) => item.id.toString()}
+              keyExtractor={(item, key) => key.toString()}
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}
               onEndReached={getBooks()}
